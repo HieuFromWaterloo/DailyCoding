@@ -1,3 +1,6 @@
+dir(object)  # OR
+help(object)
+
 # Tip 1: >>>>>>>>
 condition = False
 x = 1 if condition else 0

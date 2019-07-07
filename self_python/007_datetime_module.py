@@ -103,11 +103,18 @@ dt_east = dt_mtn.astimezone(pytz.timezone('Canada/Eastern'))
 # print(dt_east) # 2019-07-06 12:56:12.611519-04:00
 
 
+# FORMAT >>>>>>>>>>>>>>
+
+# convert datetime to a string
+print(dt_mtn)
 print(dt_mtn.strftime('%B %d, %Y'))
 
+# convert a string to a datetime format
 dt_str = 'July 6, 2016'
 dt = datetime.datetime.strptime(dt_str, '%B %d, %Y')
 print(dt)
 
 # strftime - Datetime to String
 # strptime - String to Datetime
+
+# Notes: there is another package called arrow to work with datetime

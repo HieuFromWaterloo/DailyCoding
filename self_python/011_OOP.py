@@ -80,6 +80,11 @@ class Employee:
     # we in include them because they have logical connection within the class
         - ex: a function return whether it is a work day for an employee
     """
+    @staticmethod
+    def is_workday(day):
+        if day.weekday() == 5 or day.weekday() == 6:
+            return False
+        return True
 
 
 emp1 = Employee("hieu", "nguyen", 1000000)
@@ -88,6 +93,10 @@ emp2 = Employee("hoa", "nguyen", 2000000)
 # class method
 emp_str_1 = ("hien-nguyen-2500000")
 new_emp = Employee.from_string(emp_str_1)
+
+import datetime
+my_date = datetime.date(2019, 7, 30)
+print(Employee.is_workday(my_date))
 
 # print(emp1.__dict__)  # {'pay': 1000000, 'last': 'nguyen', 'email': 'hieu.nguyen@hyperdata.ca', 'first': 'hieu'}
 

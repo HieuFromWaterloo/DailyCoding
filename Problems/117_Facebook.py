@@ -14,6 +14,7 @@ To better explain this question, let's see this example:
      2   3    (Level 1 = 2 + 3)
         / \
        4   5  (Level 2 = 4 + 5)
+
 One possible way to solve this problem is iterate level by level on the tree's nodes, so we can get theirs respective sum. Like this code:
 """
 
@@ -35,7 +36,7 @@ def minimum_level_sum(root):
 
     while not queue.empty():
         node, level = queue.get()
-        level_to_sum[level] += node.val
+        level_to_sum[level] += node.value
 
         if node.right:
             queue.put((node.right, level + 1))

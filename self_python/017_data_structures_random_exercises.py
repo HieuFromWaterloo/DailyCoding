@@ -59,7 +59,7 @@ Exercise Question 4: Given a list iterate it and count the occurrence of each el
 """
 
 sampleList = [11, 45, 8, 11, 23, 45, 23, 45, 89]
-print("Origigal list ", sampleList)
+
 countDict = dict()
 for item in sampleList:
     if(item in countDict):

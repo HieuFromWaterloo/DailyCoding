@@ -7,6 +7,16 @@ Decorator is a function that:
     - return another function
 
 All of these without altering the source code of the orginal function that being passed in
+
+Used For:
+- Logging
+- Timing
+- Working with 3rd party
+- Web routing
+
+Prerequisite:
+1. First Class Functions: https://www.youtube.com/watch?v=kr0mpwqttM0
+2. Closures: https://www.youtube.com/watch?v=swU3c34d2NQ
 """
 
 # ----

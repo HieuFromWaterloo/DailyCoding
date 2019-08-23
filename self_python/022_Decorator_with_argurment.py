@@ -2,6 +2,7 @@
 
 
 def prefix_decorator(prefix):
+    # need an additional function to take the prefix
     def decorator_function(original_function):
         def wrapper_function(*args, **kwargs):
             print(prefix, 'Executed Before', original_function.__name__)

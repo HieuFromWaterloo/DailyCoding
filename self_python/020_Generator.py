@@ -13,7 +13,7 @@ my_nums = square_numbers([1, 2, 3, 4, 5])
 
 
 def square_numbers_generator(nums):
-    result = []
+    # result = []
     for i in nums:
         # here we no longer have a list as our final output
         # Generator DO NOT hold the entire result in memory, INSTEAD,

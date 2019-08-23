@@ -63,3 +63,10 @@ while balance > 0:
     day_in_current_month = calendar.monthrange(end_date.year, end_date.month)[1]
     # since we're already in the 1st of the month, no need to add 1 to day_in_current_month
     end_date = end_date + timedelta(days=day_in_current_month)
+
+# Number of days
+print(end_date - start_date)  # it takes 91 days to pay off the debt
+# print(type(end_date - start_date)) # <type 'datetime.timedelta'>
+
+# Print numbers of weeks
+print((end_date - start_date).days // 7)  # it takes 13 weeks

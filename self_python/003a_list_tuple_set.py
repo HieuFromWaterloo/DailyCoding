@@ -92,4 +92,4 @@ tuple_2 = tuple_1
 """
 
 # empty set
-emp_set = {} # or set()
+emp_set = set() # NOT {}, this is for empty dict

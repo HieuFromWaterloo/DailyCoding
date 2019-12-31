@@ -1,0 +1,125 @@
+# >>>>>>>>>>>>>>>>>>
+# After installation
+# >>>>>>>>>>>>>>>>>>
+
+# Check git version
+git --version
+
+# Config
+git config --global user.name "hq2nguye"
+git config --global user.email "ng.hieu100@gmail.com"
+git config --list
+
+# Get help: git <verb> --help
+git config --help
+
+
+# >>>>>>>>>>>>>>>>>>
+# Working DIR
+# >>>>>>>>>>>>>>>>>>
+
+# Init git from an existing repo locally:
+# inside the repo directory
+# ls: list all files wihtin the dir
+# ls -la: list all files along with details
+# start tracking inside an existing directory with .git file inside
+git init
+# to stop tracking as a git repo
+rm -rf .git
+
+#
+git status
+
+# Create git ignore so that git will ignore these files once being pushed
+touch .gitignore
+# .gitignore is a just a simple text file where we can add files for git to ignore, inside:
+.DS_store
+.project
+# ignore all files with pyc extension
+*.pyc
+
+# >>>>>>>>>>>>>>>>>>
+# Staging: where we decide/organize what to commit
+# we can stage multiple files to commit them in small chunk at once
+# This allows more details in our commits
+# >>>>>>>>>>>>>>>>>>
+
+# check status
+git status
+
+# Add all files: everything
+git add -A
+
+# add individual file:
+git add .gitignore
+
+# remove a file from the staging:
+git reset .gitignore
+
+# remove everything from staging:
+git reset
+
+# commit:
+git commit -m ""
+
+# check the commit that we just made:
+git log
+
+# >>>>>>>>>>>>>>>>>>
+# Tracking remote repo
+# >>>>>>>>>>>>>>>>>>
+
+# clone remote repo
+git clone <url> <where to clone>
+
+# clone existing repo locally
+git clone ../git_repo
+
+# check repo information
+git remote -v
+
+# to see branches, both local and remote brnaches
+git branch -a
+
+# Check what changes are being made to the file locally:
+git diff
+
+# before push, ALWAYS rememeber to pull
+# origin: name of the remote repo
+# master: branch name
+git pull origin master
+git push origin master
+
+# >>>>>>>>>>>>>>>>>>
+# Common workflow
+# >>>>>>>>>>>>>>>>>>
+
+# create new branch for a desire feature
+git branch <branch_name>
+git checkout <branch_name>
+
+# check which branch we're on
+git branch
+
+# git push to <branch_name>: -u allows assoc between local and remote branches
+# and in the future git automatically knows so all we need to do is the regular
+# git push and git pull
+git push -u origin <branch_name>
+
+# Ready to merge to master
+git checkout master
+git pull origin master
+# check the branhc that we merge in so far: master
+git branch --merged
+git merge <branch_name>
+git push origin master
+
+# Remove a branch after master merge
+# now double check if everything has been merged
+git branch --merged
+# remove branch LOCALLY
+git branch -d <branch_name>
+# push changes
+git push origin --delete <branch_name>
+
+

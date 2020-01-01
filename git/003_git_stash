@@ -1,0 +1,34 @@
+# Whenever we have a change that we're not ready to commit
+# stash allows us to save the changes somewhere then come back to the changes later on
+
+
+git branch add
+git checkout add
+# then do some changes to the function "add" on this branch
+# but we're not ready to commit these changes yet and we wanna go back to master branch
+git stash save "work on the add function"
+# now if we do git status: there is nothing to commit.
+# now we can checkout the master branch, do whatever we wanna do and get back to the add branch
+git checkout add
+# now list all the saved changes that we used to work on, copy the stash id (stash@{0})
+git stash list
+# git stash apply stash@{0}: re apply those changes back to this branch >>>>>>
+git stash apply stash@{0}
+# note that this <git stash apply> DOES NOT remove the saved stash in <git stash list>
+
+# a quick way to reset the branch back to where it used to be
+git checkout -- .
+
+# git stash pop: re-apply the changes and remove stash >>>>>>>>>>>
+# this will re-apply stash from the top to bottom on the stash list
+git stash pop
+
+# >>>>>>
+# git stash drop: this will drop the stash WITHOUT re-applying the changes assoc. with this stash
+git stash drop stash@{0}
+
+# >>>>
+# git stash clear: CAREFUL! this will clear ALL stash in the stack WITHOUT re-applying the changes
+git stash clear
+
+# NOTE: stash gets carried from one branch to another. very handy to avoid conflicts when we commiting

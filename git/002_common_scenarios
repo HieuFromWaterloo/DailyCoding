@@ -1,0 +1,71 @@
+# Undo stupid mistakes: This will reverse all the changes back to where it used to be
+git checkout <fuckedup_file>
+# git status and git diff will not show any changes after we checked the file out
+
+# Undo stupid commits: note that when we do this, the log hash will be changed
+# and this may affect other people if we are collaborating
+# ONLY DO THIS KINDA CHANGE IF we have not pushed any changes to other people
+git commit --amend -m "modified commit message here"
+
+# If we want the latest change to be part of the PREVIOUS commit
+git add <new_file>
+git commit --amend
+# launch interactive editor: :wq <enter> to save it to the last commit
+# We can actually change the log message WITHIN the intereactive editor
+# now check the log history: show changes within a commit. Note: log hash is now changed
+git log --stat
+
+# Moving one commit to a different branch (commit to a wrong branch accidentally) and reverse all
+# changes in the master branch back to where it used to be
+# create a new commit based the "commit by mistake", this does NOT delete the false commit
+git log
+# then copy the log hash up to 6-7 chars
+# check out the branch that we would like to move that commit to
+git checkout <branch_name>
+git cherry-pick <7_char_hash_false_commit>
+# now we copied BUT NOT delete the false commit from master to branch_name
+# next is to remove it from master
+git checkout master
+# >>>> 3 types of git reset: soft, mixed (default), hard <<<<<
+
+# soft: trying to reset the entire log to the initial commit, false commit will be gone
+# BUT soft will KEEP all the changes in the staging directory, so we do not lose any of our work/changes
+# do git log to copy 7 char of the hash of initial commit
+git reset --soft <7_char_hash_init_commit>
+
+# mix (default): reset commit log back to the initial commits while NOT keeping all changes in the staging but RATHER keep them in the working directory. We still do NOT lose any work here
+git reset <7_char_hash_init_commit>
+
+# hard: this will get rid of EVERYTHING, BOTH false commit AND changes from the TRACKED file
+# use this if we really do not want to keep our changes.
+# reset hard will skip through ALL untracked files
+git reset --hard <7_char_hash_init_commit>
+
+# to get rid of all untracked files (accidentally unzip a big files)
+git clean -df
+
+# >>> WHAT IF we accidentally do reset hard on a certain branch <<<<
+# GO to <branch_name>
+# to to reflog to see historical commit activities: entering HEAD branch
+git reflog
+# now copy the hash BEFORE the hard reset, then checkout
+git checkout <hash_commit_b4_hard_reset>
+# since now we're in the HEAD stage which will be thrown away after say 30D, so gotta branch out
+# This backup branch contained ALL the changes that we HARD reset
+git branch checkout backup
+# now checkout the master
+git branch checkout master
+
+# >>>> WHAT IF: we wanna undo sth that has been pulled from other team members??? <<<<
+# copy the hash associating with the commit we wanna make changes
+git log
+git revert <hash>, :wq <enter>
+# now we have an additional commit created by REVERT
+
+# see difference between 2 hashes
+git diff <hash_1> <hash_2>
+# this way will not screw up other people history log
+
+
+
+

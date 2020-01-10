@@ -1,0 +1,15 @@
+# GIT ADD:  "add -A" (default), "add -u", "add .", and "add *"
+
+# add -A: add all the changes in staging in the entire working tree (new, modified, deleted)
+## Only wanna add the changes in a specified directory
+git add -A my_dir/
+## add every EXCEPT deleted files
+git add --no-all my_dir/
+
+# add -u (update): add all the MODIFIED and DELETED files BUT NOT untracked or new files for the entire tree
+## only wanna update a specified directory
+git add -u my_dir/
+
+# add . is NOT THE SAME AS add -A: it DOES NOT add changes in the TOP LEVEL directory if you're in the subtree of the directory. hence, it DOES NOT ADD for the ENTIRE TREE like git add -A does
+
+# NOT RECCOMEND: add * because it is a shell command, not sth that git knows how to use properly. Hence, it usually IGNORE deleted and hidden files when we try to add stuffs

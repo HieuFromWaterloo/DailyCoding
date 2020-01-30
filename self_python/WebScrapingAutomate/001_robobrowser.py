@@ -2,6 +2,7 @@ import re
 # create a python file: config.py to store email & pw
 import config
 from robobrowser import RoboBrowser
+# This automation structure is not dynami. if the debeloper decides to changes the html component of the webpage, then this entire file needs to be edited
 
 br = RoboBrowser()
 br.open("https://datacoup.com/signin")

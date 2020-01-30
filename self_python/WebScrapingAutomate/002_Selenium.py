@@ -14,25 +14,25 @@ pip install selenium
 """
 
 ############ EXTRACT FROM 1ST PAGES #################
-from selenium import webdriver
+# from selenium import webdriver
 
-# Open up a Firefox browser and navigate to web page.
-driver = webdriver.Firefox()
-driver.get("http://econpy.pythonanywhere.com/ex/001.html")
+# # Open up a Firefox browser and navigate to web page.
+# driver = webdriver.Firefox()
+# driver.get("http://econpy.pythonanywhere.com/ex/001.html")
 
-# Extract lists of "buyers" and "prices" based on xpath.
-# // perceives xpath and we want this xpath to be in the div tag
-buyers = driver.find_elements_by_xpath('//div[@title="buyer-name"]')
-prices = driver.find_elements_by_xpath('//span[@class="item-price"]')
+# # Extract lists of "buyers" and "prices" based on xpath.
+# # // perceives xpath and we want this xpath to be in the div tag
+# buyers = driver.find_elements_by_xpath('//div[@title="buyer-name"]')
+# prices = driver.find_elements_by_xpath('//span[@class="item-price"]')
 
-# Print out all of the buyers and prices on page:
-num_page_items = len(buyers)
-for i in range(num_page_items):
-    # extract the text from the buyers list
-    print(buyers[i].text + " : " + prices[i].text)
+# # Print out all of the buyers and prices on page:
+# num_page_items = len(buyers)
+# for i in range(num_page_items):
+#     # extract the text from the buyers list
+#     print(buyers[i].text + " : " + prices[i].text)
 
-# Clean up (close browser once completed task).
-driver.close()
+# # Clean up (close browser once completed task).
+# driver.close()
 
 
 ########### EXTRACT ALL PAGES AND STORE IN CSV ##############

@@ -40,6 +40,11 @@ from selenium import webdriver
 # first thing to note is that as we navigate through pages
 # the only thing that chages is the url
 
+# tells selenmn where chrome driver is stored
+chromedriver = "/home/captainhampton/Downloads/chromedriver"
+driver = webdriver.Chrome(chromedriver)
+driver.get("http:google.com")
+
 # set max page number: how many times are we gonna click the "load more"
 MAX_PAGE_NUM = 5
 # set max page digit: this is for editting the url
@@ -50,6 +55,10 @@ with open('results.csv', 'w') as f:
     f.write("Buyer, Price \n")
 
 for i in range(1, MAX_PAGE_NUM + 1):
+    """
+    + len(str(i))): (1, MAX_PAGE_NUM + 1)
+    + padding string i with appropirate 0 in front: * "0"
+    """
     page_num = (MAX_PAGE_DIG - len(str(i))) * "0" + str(i)
     url = "http://econpy.pythonanywhere.com/ex/" + page_num + ".html"
 
@@ -59,6 +68,7 @@ for i in range(1, MAX_PAGE_NUM + 1):
     prices = driver.find_elements_by_xpath('//span[@class="item-price"]')
 
     num_page_items = len(buyers)
+    # write to a csv files
     with open('results.csv', 'a') as f:
         for i in range(num_page_items):
             f.write(buyers[i].text + "," + prices[i].text + "\n")

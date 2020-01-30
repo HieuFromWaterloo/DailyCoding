@@ -4,7 +4,7 @@ git checkout <fuckedup_file>
 
 # Undo stupid commits: note that when we do this, the log hash will be changed
 # and this may affect other people if we are collaborating
-# ONLY DO THIS KINDA CHANGE IF we have not pushed any changes to other people
+# ONLY DO THIS KINDA CHANGE I'F we have not pushed any changes to other people
 git commit --amend -m "modified commit message here"
 
 # If we want the latest change to be part of the PREVIOUS commit

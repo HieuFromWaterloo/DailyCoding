@@ -73,7 +73,16 @@ for i in range(1, MAX_PAGE_NUM + 1):
     # url = "http://econpy.pythonanywhere.com/ex/" + page_num + ".html"
 
     driver.get(url)
-    test_filing_entry = driver.find_elements_by_xpath('//div[@class="filing-entry"]')
+
+    # create a dict of title
+    dict.fromkeys(["Com", , 3, 4]) # {1: None, 2: None, 3: None}
+
+    # The 1st 2 entries will always be comapny name and filing date
+    company_name = []
+    filing_date = []
+    filing_type = []
+
+    filing_entry = driver.find_elements_by_xpath('//div[@class="filing-entry"]')
     # test_filing_head = driver.find_elements_by_xpath('//div[@class="filing-head"]')
     # test_filing_meta = driver.find_elements_by_xpath('//div[@class="filing-meta"]')
 

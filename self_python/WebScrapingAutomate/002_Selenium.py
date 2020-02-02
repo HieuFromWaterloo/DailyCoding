@@ -21,30 +21,9 @@ pip install selenium
 
 """
 
-############ EXTRACT FROM 1ST PAGES #################
-# from selenium import webdriver
-
-# # Open up a Firefox browser and navigate to web page.
-# driver = webdriver.Firefox()
-# driver.get("http://econpy.pythonanywhere.com/ex/001.html")
-
-# # Extract lists of "buyers" and "prices" based on xpath.
-# # // perceives xpath and we want this xpath to be in the div tag
-# buyers = driver.find_elements_by_xpath('//div[@title="buyer-name"]')
-# prices = driver.find_elements_by_xpath('//span[@class="item-price"]')
-
-# # Print out all of the buyers and prices on page:
-# num_page_items = len(buyers)
-# for i in range(num_page_items):
-#     # extract the text from the buyers list
-#     print(buyers[i].text + " : " + prices[i].text)
-
-# # Clean up (close browser once completed task).
-# driver.close()
-
-
 ########### EXTRACT ALL PAGES AND STORE IN CSV ##############
 from selenium import webdriver
+import csv
 # first thing to note is that as we navigate through pages
 # the only thing that chages is the url
 
@@ -54,62 +33,105 @@ from selenium import webdriver
 # driver.get("http:google.com")
 
 # set max page number: how many times are we gonna click the "load more"
-MAX_PAGE_NUM = 1  # 43
+MAX_PAGE_NUM = 43  # 43
 # set max page digit: this is for editting the url
 MAX_PAGE_DIG = 3
 # Note we nolong need to specify a specific webpage here
 driver = webdriver.Firefox()
+page_num = 43
+url = "https://insolvencyinsider.ca/filing/?fwp_load_more=5"
 
-with open('results.csv', 'w') as f:
-    f.write("Buyer, Price \n")
+driver.get(url)
+"""
+Filing Type: Receivership
+Company Counsel: Advocates
+Trustee: BDO
+Trustee Counsel: Aird & Berlis
+Applicant: RBC
+Applicant Counsel: Harrison Pensa
+Industry: Automotive
+Province: Ontario
+"""
+# create a dict of title:
+"""
+# {1: None, 2: None, 3: None}
+"""
+d = dict.fromkeys(["Company", "Ticker", "Filing Date", "Filing Type",
+                   "Company Counsel", "Trustee", "Trustee Counsel", "Applicant",
+                   "Applicant Counsel", "Industry", "Province", "Summary"])
 
-for i in range(1, MAX_PAGE_NUM + 1):
-    """
-    + len(str(i))): (1, MAX_PAGE_NUM + 1)
-    + padding string i with appropirate 0 in front: * "0"
-    """
-    page_num = (MAX_PAGE_DIG - len(str(i))) * "0" + str(i)
-    url = "https://insolvencyinsider.ca/filing/?fwp_load_more=" + page_num
-    # url = "http://econpy.pythonanywhere.com/ex/" + page_num + ".html"
+key_set = set(d.keys())
+key_set -= {"Company", "Filing Date", "Summary"}
 
-    driver.get(url)
+for key, _ in d.items():
+    d[key] = []
 
-    # create a dict of title
-    dict.fromkeys(["Com", , 3, 4]) # {1: None, 2: None, 3: None}
+filing_entry = driver.find_elements_by_xpath('//div[@class="filing-entry"]')
+links = driver.find_elements_by_partial_link_text('View Case')
 
-    # The 1st 2 entries will always be comapny name and filing date
-    company_name = []
-    filing_date = []
-    filing_type = []
+# get all the url
+# for link in links:
+#     d["Link"].append(str(link.get_attribute("href")))
+# print(str(link.get_attribute("href")))
 
-    filing_entry = driver.find_elements_by_xpath('//div[@class="filing-entry"]')
-    # test_filing_head = driver.find_elements_by_xpath('//div[@class="filing-head"]')
-    # test_filing_meta = driver.find_elements_by_xpath('//div[@class="filing-meta"]')
 
-    # test_label = driver.find_elements_by_xpath('//span[@class="filing-meta-label"]')
+for e in filing_entry:
+    list_of_content = [str(i).strip() for i in e.text.split("\n")]
+    print(list_of_content)
+    print("\n")
+    # remove empty str
+    list_of_content = list(filter(None, list_of_content))
 
-    # test_content = driver.find_elements_by_xpath('//div[@class="filing-content"]')
-    print(len(test_filing_entry))
-    # print(test_label)
-    for e in test_filing_entry:
-        print(len([i for i in e.text.split("\n")]))
-        print(e.text)
-        print("\n")
+    com_name = list_of_content[0]
+    if "(" in com_name:
+        ticker = str(com_name[com_name.index("("):])
+    else:
+        ticker = "NA"
 
-    print([i for i in test_filing_entry[0].text.split("\n")])
-    # num_page_items = len(test_label)
-    # write to a csv files
-    # with open('results.csv', 'a') as f:
-    #     for i in range(num_page_items):
-    #         f.write(test_label[i].text + "," + class_content[i].text + "\n")
+    # print(f">>>> WORKING ON {com_name} <<<<<<\n")
 
-    # filing_type = driver.find_elements_by_xpath('//div[@title="buyer-name"]')
-    # prices = driver.find_elements_by_xpath('//span[@class="item-price"]')
+    d["Company"].append(com_name)
+    d["Ticker"].append(ticker)
+    d["Filing Date"].append(list_of_content[1])
+    d["Summary"].append(list_of_content[-2])
+    # take care of the rest of the labels
+    list_of_labels = [i for i in list_of_content[2:-2] if len(i.split(":")) == 2]
+    # ['Filing Type: Bankruptcy', 'Trustee: KSV Advisory', 'Industry: Transportation']
+    set_of_labels = set([i.split(":")[0] for i in list_of_labels])
+    # {'Industry', 'Filing Type', 'Trustee'}
+    for label in list_of_labels:
+        tmp = label.split(":")
+        d[tmp[0].strip()].append(tmp[1].strip())
 
-    # num_page_items = len(buyers)
-    # write to a csv files
-    # with open('results.csv', 'a') as f:
-    #     for i in range(num_page_items):
-    #         f.write(buyers[i].text + "," + prices[i].text + "\n")
+    # non overlap:
+    sym_diff_list = list(key_set.symmetric_difference(set_of_labels))
+    for diff in sym_diff_list:
+        d[diff].append("NA")
+
+# print(d)
+
+with open("test_d.csv", "w") as outfile:
+    writer = csv.writer(outfile)
+    writer.writerow(d.keys())
+    writer.writerows(zip(*d.values()))
+
+print(f">>>>>>>>>>>>>> SCRAPING COMPLETED >>>>>>>>>>>>>>>\n")
+print(len(filing_entry))
+print(len(links))
+
+# num_page_items = len(test_label)
+# write to a csv files
+# with open('results.csv', 'a') as f:
+#     for i in range(num_page_items):
+#         f.write(test_label[i].text + "," + class_content[i].text + "\n")
+
+# filing_type = driver.find_elements_by_xpath('//div[@title="buyer-name"]')
+# prices = driver.find_elements_by_xpath('//span[@class="item-price"]')
+
+# num_page_items = len(buyers)
+# write to a csv files
+# with open('results.csv', 'a') as f:
+#     for i in range(num_page_items):
+#         f.write(buyers[i].text + "," + prices[i].text + "\n")
 
 driver.close()

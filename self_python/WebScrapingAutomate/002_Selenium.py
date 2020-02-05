@@ -24,6 +24,12 @@ pip install selenium
 ########### EXTRACT ALL PAGES AND STORE IN CSV ##############
 from selenium import webdriver
 import csv
+import timeit
+
+start = timeit.default_timer()
+
+# Your statements here
+
 # first thing to note is that as we navigate through pages
 # the only thing that chages is the url
 
@@ -39,7 +45,7 @@ MAX_PAGE_DIG = 3
 # Note we nolong need to specify a specific webpage here
 driver = webdriver.Firefox()
 page_num = 43
-url = "https://insolvencyinsider.ca/filing/?fwp_load_more=5"
+url = "https://insolvencyinsider.ca/filing/?fwp_load_more=43"
 
 driver.get(url)
 """
@@ -58,38 +64,50 @@ Province: Ontario
 """
 d = dict.fromkeys(["Company", "Ticker", "Filing Date", "Filing Type",
                    "Company Counsel", "Trustee", "Trustee Counsel", "Applicant",
-                   "Applicant Counsel", "Industry", "Province", "Summary"])
+                   "Applicant Counsel", "Industry", "Province", "Summary", "Link"])
 
 key_set = set(d.keys())
-key_set -= {"Company", "Filing Date", "Summary"}
+key_set -= {"Company", "Ticker", "Filing Date", "Summary", "Link"}
 
 for key, _ in d.items():
     d[key] = []
 
 filing_entry = driver.find_elements_by_xpath('//div[@class="filing-entry"]')
 links = driver.find_elements_by_partial_link_text('View Case')
+list_of_links = []
 
 # get all the url
-# for link in links:
-#     d["Link"].append(str(link.get_attribute("href")))
+for link in links:
+    list_of_links.append(str(link.get_attribute("href")))
+
+# now reverse the list of url:
+list_of_links = list_of_links[::-1]
 # print(str(link.get_attribute("href")))
 
-
 for e in filing_entry:
+    # Get list of content like:
+    """
+    ['Gestion Knightsbridge', 'November 15, 2019', 'Filing Type: NOI', 'Trustee: Richter', 'Industry: Real Estate', 'Province: Quebec', 'Gestion Knightsbridge, a Montreal, Quebec-based residential real estate developer, filed an NOI on November 15, along with certain related companies. Richter is the proposal trustee.', 'View Case Details']
+    """
     list_of_content = [str(i).strip() for i in e.text.split("\n")]
-    print(list_of_content)
-    print("\n")
-    # remove empty str
+    # print(list_of_content)
+    # print("\n")
+    # remove empty str in a list
     list_of_content = list(filter(None, list_of_content))
+
+    # NOW DEALING WITH THE INCONSISTENCY of the LINKS
+    if "View Case Details" in list_of_content:
+        url = list_of_links.pop()
+        d["Link"].append(url)
+    else:
+        d["Link"].append("NA")
 
     com_name = list_of_content[0]
     if "(" in com_name:
         ticker = str(com_name[com_name.index("("):])
     else:
         ticker = "NA"
-
-    # print(f">>>> WORKING ON {com_name} <<<<<<\n")
-
+    print(f">>>> WORKING ON {com_name} <<<<<<\n")
     d["Company"].append(com_name)
     d["Ticker"].append(ticker)
     d["Filing Date"].append(list_of_content[1])
@@ -99,16 +117,19 @@ for e in filing_entry:
     # ['Filing Type: Bankruptcy', 'Trustee: KSV Advisory', 'Industry: Transportation']
     set_of_labels = set([i.split(":")[0] for i in list_of_labels])
     # {'Industry', 'Filing Type', 'Trustee'}
+
+    # Now filling in the labels accordingly into the dict
     for label in list_of_labels:
         tmp = label.split(":")
         d[tmp[0].strip()].append(tmp[1].strip())
 
-    # non overlap:
+    # non overlap: check if there is any labels missing. if yes then fillin NA
     sym_diff_list = list(key_set.symmetric_difference(set_of_labels))
     for diff in sym_diff_list:
         d[diff].append("NA")
 
-# print(d)
+    # print(len(list_of_links))
+    # print("\n")
 
 with open("test_d.csv", "w") as outfile:
     writer = csv.writer(outfile)
@@ -117,7 +138,8 @@ with open("test_d.csv", "w") as outfile:
 
 print(f">>>>>>>>>>>>>> SCRAPING COMPLETED >>>>>>>>>>>>>>>\n")
 print(len(filing_entry))
-print(len(links))
+print(len(list_of_links))
+
 
 # num_page_items = len(test_label)
 # write to a csv files
@@ -135,3 +157,6 @@ print(len(links))
 #         f.write(buyers[i].text + "," + prices[i].text + "\n")
 
 driver.close()
+stop = timeit.default_timer()
+
+print('Total Running Time: ', stop - start)

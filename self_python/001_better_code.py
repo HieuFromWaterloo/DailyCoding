@@ -42,7 +42,7 @@ a, _ = (1, 2)
 # Too many values to unpack:
 a, b, c = (1, 2, 3, 4, 5)  # will get errors
 
-a, b, *c = (1, 2, 3, 4, 5)  # a=1,b=2, c = [3,4,5]
+a, b, *c = (1, 2, 3, 4, 5)  # a=1, b=2, c = [3,4,5]
 
 a, b, *_ = (1, 2, 3, 4, 5)  # ignore everything after 3
 

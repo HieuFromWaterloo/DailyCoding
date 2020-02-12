@@ -96,3 +96,43 @@ find . -empty
 
 #-- Search file with permission 777
 find . -perm 777
+
+# >>>>>>>>>>>>> Perform action on search result <<<<<<<<<<<<
+find . -perm 777
+# Now everything is set to 777, which gives every one the permission to:
+# read, write and execute permissions
+
+"""
+1. first, change the user name and group for every directory and file in our folder
+
+2. then, set all the DIR to have permission level of 775 and all the file to FILES to have permission level of 664
+
+-exec: exucute
+-chown: change owner
+"""
+
+# 1-- change user and gorup
+find MyWebsite - exec chown hq2nguye: www - data {} +  # added placeholder "{}" for all the result and "+" to end the command
+# check the result
+ls - la
+
+# 2-- set all the DIR to have permission level of 775
+find MyWebsite - type d - exec chmod 775 {} +
+# check the result
+find MyWebsite - perm 775
+
+# all the file to FILES to have permission level of 664
+find MyWebsite - type f - exec chmod 664 {} +
+find MyWebsite - perm 664
+
+# >>>>>>>>>>> DELETE ALL *.JPG FILES <<<<<<<<<<
+"""
+1. ALways Search "*.jpg" before remove to see whats there
+find . -type -f -name "*.py"
+
+2. Sometimes we ONLY wanna remove files from CURRENT dir, NOT from the subdir
+--> use -maxdepth 1
+"""
+
+# -- REMOVE all .jpg files in current dir
+find . -type f - name "*.jpg" - maxdepth 1 - exec rm {} +

@@ -39,3 +39,60 @@ rm - R CopyDir/
 
 # FORCE DELETE--- CAREFULE
 rm - rf TesterDir/
+
+# >>>>>>>>>>>>> FIND <<<<<<<<<<<<<<<<<<<<<<
+man find
+
+# find all file in CURRENT directory
+find .
+
+# find all file in a directory
+find MyWebsite
+
+# Only find the directory BUT IGNORE all the files in CURRENT dir
+find . -type d
+
+#-- EXACT SEARCH for a file name within current dir
+find . -type f - name "test_file.txt"
+
+#-- * SEARCH for a file name within current dir
+find . -type f - name "test*"
+
+#-- NOTE here -name is CASE SENSITIVE
+
+#-- * SEARCH NON CAST SENSITIVE - iname
+find . -type f - iname "test*"
+
+# * SEARCh for all .py files
+find . -type f - iname "*.py"
+
+#-- Find all files being modified in LESS THAN 10 mins ago
+find . -type f - mmin - 10
+
+# Find all files being modified in MORE THAN 10 mins ago
+find . -type f - mmin + 10
+
+#-- Find all files being modified in MORE THAN 1 mins AND LESS THAN 5 mins
+find . -type f - mmin + 1 - mmin - 5
+
+# Find all files being modified in LEST THAN 10 DAYS ago: -mtime
+find . -type f - mtime 20  # less than 20 days ago
+
+"""
+- mmin, mtime: modified min and day
+- cmin, ctime: changed min and day
+- amin, atime: accessed min and day
+"""
+
+# -- Search by file size
+# find all the files more than 5MB
+find . -size + 5M  # OR 5k, 5G
+
+# check file size
+ls - lah
+
+#-- Search for Empty files
+find . -empty
+
+#-- Search file with permission 777
+find . -perm 777

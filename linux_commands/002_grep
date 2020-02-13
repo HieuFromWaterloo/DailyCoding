@@ -1,0 +1,60 @@
+# >>>>>>>>> GREP TUT: Global Regular Expression Print <<<<<<<<<<<<<
+
+it allows us to search for text within files in our system
+
+## Find "hq2nguye" in a file (PARTIAL match)
+grep "hq2nguye" text_file.txt
+
+this will return: hq2nguye, hq2nguye@uwaterloo
+
+## EXACT MATCH
+grep -w "hq2nguye" text_file.txt
+
+return exactly: hq2nguye
+
+**Note:** grep is case sensitive
+
+## NON-CASE SENSITIVE MATCH
+grep -wi "hq2nguye" text_file.txt
+
+return: hq2nguye, HQ2NGUYE
+
+## LOOK FOR THE LINE NUMBER WHERE WE FOUND THE MATCH
+grep -win "hq2nguye" text_file.txt
+
+## SEE SOME CONTEXT BEFORE (-B) & AFTER (-A) THE MATCH
+To see 4 lines before or after the match context:
+
+grep -win -B (or -A) 4 "hq2nguye" text_file.txt
+
+## SEE BOTH BEFORE AND AFTER (-C)
+
+grep -win -C 4 "hq2nguye" text_file.txt
+
+## Search the match for every file in the current directory
+
+grep -win "hq2nguye" ./*
+grep -win "hq2nguye" ./*.txt
+
+**Note:** This does not search the context in subdirectory
+
+## RECURSIVE SEARCH (-r) IN CURRENT DIRECOTRY AS WEL AS SUBDIRECTORY
+
+We can specify a directory as a starting point:
+
+grep -winr "hq2nguye" text_file.txt .
+
+**Note** If the directory is a big directory then it may take extremely long
+
+## ONLY return the FILES which contain the matched context (-l)
+grep -wirl "hq2nguye" text_file.txt
+
+## ONLY return the FILES WITH NUMBER OF MATCHES which contain the matched context (-c)
+grep -wirc "hq2nguye" text_file.txt
+
+
+
+
+
+
+

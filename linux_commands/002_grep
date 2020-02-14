@@ -52,6 +52,25 @@ grep -wirl "hq2nguye" text_file.txt
 ## ONLY return the FILES WITH NUMBER OF MATCHES which contain the matched context (-c)
 grep -wirc "hq2nguye" text_file.txt
 
+this will count number of file
+
+# >>>>>> SEARCH FOR HISTORY OF THE LATEST GIT COMMAND <<<<<<<
+
+## one way to do it is:
+history
+
+this will display all history
+
+## NARROW DOWN HISTORY: grep for specific command
+history | grep "git commit"
+
+## NARROW DOWN FURTHER TO FILE SPECIFIC
+history | grep "git commit" | grep "erindale"
+
+## COMBINE WITH REGREX
+
+**NOTE:** grep uses Posix Regex by default whereas python Pearl compatible regex so this may affect our search result
+
 
 
 

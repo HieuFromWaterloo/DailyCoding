@@ -2,6 +2,11 @@
 
 it allows us to search for text within files in our system
 
+## look for version of grep in our system:
+grep -V
+
+## Homebrew is a package manager for the mac
+
 ## Find "hq2nguye" in a file (PARTIAL match)
 grep "hq2nguye" text_file.txt
 
@@ -67,9 +72,15 @@ history | grep "git commit"
 ## NARROW DOWN FURTHER TO FILE SPECIFIC
 history | grep "git commit" | grep "erindale"
 
-## COMBINE WITH REGREX
+# >>>>>>>>> COMBINE WITH REGREX <<<<<<<<<<<<<<
 
 **NOTE:** grep uses Posix Regex by default whereas python Pearl compatible regex so this may affect our search result
+
+## Search for phone number with format: ***-***-****
+grep "...-...-...." telephone_file.txt
+
+
+
 
 
 

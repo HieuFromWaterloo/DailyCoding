@@ -6,6 +6,8 @@
 Note that a list is iterable BUT NOT an iterator
 
 - Very helpful because we can add these methods to our classes and make them iterable as well
+
+- Memory efficient: iterator does not require storing a big list/tuple with tons of items while iterating through them. it simple loop over one value at a time until it exhausted. (password crackers as for examples)
 """
 
 nums = [1, 2, 3]
@@ -44,15 +46,15 @@ class MyRange:
         if self.value >= self.end:
             raise StopIteration
         current = self.value
-        self.value += 1
+        self.current += 1
         return current
 
 
 nums = MyRange(1, 10)
-# print(next(nums))
-# print(next(nums))
-# print(next(nums))
-# print(next(nums))
+print(next(nums))
+print(next(nums))
+print(next(nums))
+print(next(nums))
 
 # GENERATOR EQUIVALENT TO THE ABOVE CLASS: very ez to read version of iterators, which already take care of __iter__, __next__
 
@@ -62,3 +64,46 @@ def my_range(start, end):
     while current < end:
         yield current
         current += 1
+
+
+########### EXERCISE: #########
+"""
+Create an iterator and generator theat loops through every word in a sentence
+"""
+sentence = "This is a test sentence"
+
+# Iterator
+
+
+class Sentence:
+    def __init__(self, sentence):
+        self.sentence = sentence
+        self.index = 0
+        self.words = self.sentence.split()
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.words):
+            raise StopIteration
+        idx = self.index
+        self.index += 1
+        return self.words[idx]
+
+
+my_sentence = Sentence(sentence)
+
+
+def my_sentence(sentence):
+    words = sentence.split()
+    idx = 0
+    while idx < len(words):
+        yield words[idx]
+        idx += 1
+
+
+def my_sentence(sentence):
+    words = sentence.split()
+    for w in words:
+        yield w

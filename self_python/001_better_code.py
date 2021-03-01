@@ -48,6 +48,24 @@ a, b, *_ = (1, 2, 3, 4, 5)  # ignore everything after 3
 
 a, b, *c, d = (1, 2, 3, 4, 5)  # a=1,b=2, c = [3,4], d = 5
 
+
+# *args: uses for arguments
+def func(*args):
+    # this means this function can take unlimited number of arguments
+    print(args)
+
+
+func(2, 3)  # (2,3)
+
+# **kwargs: ** uses for dictionary, kwargs: key word arguments
+
+
+def func_dict(**kwargs):
+    print(kwargs)
+
+
+func_dict(k=0, x=8, y=13)  # {'k':0,'x':8,'y':10}
+
 # Getting and Setting attributes to a Class: >>>>>>>>>>>>>>>>>>>>>
 
 
@@ -103,3 +121,18 @@ print("loging in...")
 # RUN A MODEL FROM DIFFERENT ENV/DIR: -m searching through directories,
 python - m moule_name - c argument_c_required_for_module - n argument_n_required_for_module
 # NOTE: module_name".py" not required
+
+
+# CHECK HOW MANY BYTES A VAR TAKES >>>>>>>>>>>>>>>>>>>>>>>>
+import SYSTEM
+x = [1, 2, 3, 4]  # can be str, int, etc
+print(sys.getsizeof(x))
+
+# GET THE MOST PREQUENT ELEMENT IN A LIST >>>>>>>>>>>>>>>>>>>
+x = [1, 2, 3, 4, 5, 1, 1, 1, 1, 1, 2, 2, 2, 3, 4, 5]
+print(max(set(x), key=x.count))  # return 1
+
+# GET THE LARGE ELEMENT FROM LIST OF PAIRS OR TRIPLETS >>>>>>>>>>>>>>>>>>>>>
+x = [(1, 2), (3, 4), (1, 9)]
+# we wanna get the tuple with the largest 2nd element: (1,9)
+print(max(set(x), key=lambda y: y[1]))

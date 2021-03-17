@@ -1,3 +1,6 @@
+# SOURCE:
+# poorsql.com --> use to auto indentation
+
 # >>>>>>>>>>>>>>>>> CREATE NEW DATABASE <<<<<<<<<<<<<<<
 CREATE DATABASE dvdrental;
 
@@ -127,6 +130,11 @@ WHERE amount > 5;
 SELECT COUNT(*) FROM actor
 WHERE first_name LIKE "P%";
 
+# Find all the customer emails that start with "J" and are from gmail.com.
+SELECT Email
+FROM Customers
+WHERE Email LIKE 'J%gmail%'
+
 # how many unique district
 SELECT COUNT(DSTINCT(district)) from address
 # Get the names of the distinct district
@@ -171,6 +179,20 @@ FROM payment
 GROUP BY customer_id
 ORDER BY SUM(amount) DESC
 HAVING SUM(amount) > 300;
+# NOTE** WHERE only works on rows basis and does not work with GROUP so use HAVING
+# REMEMBER: WHERE BEFORE GROUP BY and HAVING AFTER GROUP BY
+SELECT customer_id, COUNT(*) as orders
+FROM Orders
+GROUP BY customer_id
+HAVING orders >= 2;
+
+# use ORDER BY to make out put alphabetically sorted --> increase readability
+SELECT SupplierID, COUNT(*) as Num_Prod
+FROM Products
+WHERE UnitPrice >= 4
+GROUP BY SupplierID
+HAVING Num_Prod >= 2
+ORDER BY SupplierID;
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # >>>>>>> SECTION 4 : JOIN, AS, UNION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -180,6 +202,10 @@ SELECT customer_id, SUM(amount) AS total_spent
 FROM payment
 GROUP BY customer_id
 ORDER BY total_spent;
+
+SELECT vendor_name, product_name, product_price
+FROM Vendors AS v, Products AS p
+WHERE v.vendor_id = p.vendor_id;
 
 # IMPORTANT: professionally, RELACE("AS", " ") should give the same result
 
@@ -211,8 +237,16 @@ INNER JOIN film AS movie on inventory.film_id = movie.film_id
 WHERE store_id = 1
 GROUP BY title;
 
+
+# Join more than 2 tables with short form names
+# o = Orders; c = Customers; e = Employees
+SELECT o.OrderID, c.CompanyName, e.Lastname
+FROM ((Orders o INNER JOIN Customers c ON o.CustomerId = c.CustomerId)
+INNER JOIN Employees e ON o.CustomerId = e.CustomerId);
+# DO NOT FUCK UP THE BRACKETS!!!!!
+
 ## UNION: Combine 2 "same structured" (same col data struct, # of cols) dataframes
-# examples: UNION/CONCATE quarterly sales together
+# examples: UNION/CONCAT quarterly sales together
 # Note: UNION will remove duplicate rows
 # TO SHOW DUPLICATE RESULT AS WELL: use "UNION ALL"
 
@@ -222,8 +256,37 @@ UNION # or UNION ALL
 SELECT column1, column2
 FROM table_name2;
 
+# map relationship between customers and suppliers
+SELECT City, Country
+FROM Customers
+WHERE Country = 'Germany' # NOTE: ORDER OF COLS ARE SAME
+UNION
+SELECT City, Country
+FROM Suppliers
+WHERE Country='Germany'
+ORDER BY City;
+
 ## TODO: review the JOIN Challenge
 
+# >>>>>>> SUB QUERIES <<<<<<<<<<<<<<<<<<<<<<<<<
+# start with the inner query becuase thats how DBMS operates
+# NOTES: subquery only works with 1 single col at a time
+
+SELECT CustomerId, CompanyName
+FROM Customers
+WHERE CustomerId IN (SELECT
+      CustomerId
+      FROM Orders
+      WHERE Freight > 100);
+
+# HARD ONE:
+# customers.customer_name | customers.customer_state | total(orders.order)
+SELECT customer_name, customer_state,
+      (SELECT COUNT(*)
+        FROM Orders
+        WHERE Orders.customer_id = Customers.customer_id) AS total_orders
+FROM Customers
+ORDER BY customer_name DESC;
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # >>>>>>> SECTION 5 : ADVANCED SQL COMMANDS <<<<<<<<<<<<<<<<<<<<<<<<<
@@ -240,6 +303,18 @@ FROM table_name2;
 -- -----------------------------------
 
 -- 1 -- Timestamp
+
+# >>>>>> WHY AND WHEN TO USE SELF JOIN <<<<<<<<<<<
+# https://stackoverflow.com/questions/3362038/what-is-self-join-and-when-would-you-use-it#:~:text=You%20use%20a%20self%20join,boss%20of%20the%20current%20employee.&text=It's%20basically%20used%20where%20there,employees.
+
+select e1.EmployeeID,
+    e1.FirstName,
+    e1.LastName,
+    e1.SupervisorID,
+    e2.FirstName as SupervisorFirstName,
+    e2.LastName as SupervisorLastName
+from Employee e1
+left outer join Employee e2 on e1.SupervisorID = e2.EmployeeID
 
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

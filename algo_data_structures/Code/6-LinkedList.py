@@ -64,8 +64,9 @@ class LinkedList:
 
         # list is empty
         if self.head is None:
-            return
+            return None
 
+        # start with the head
         actual_node = self.head
         # we have to track the previous node for future pointer updates
         # this is why doubly linked lists are better - we can get the previous
@@ -73,21 +74,35 @@ class LinkedList:
         previous_node = None
 
         # search for the item we want to remove (data)
+        # Note: without the `actual_node is not None` it will be an inf loop
+        # the while loop only serve as the SEARCH function
         while actual_node is not None and actual_node.data != data:
+            # current node is not what we look for then move on and set it as previous node
             previous_node = actual_node
+            # pointing to the next node
             actual_node = actual_node.next_node
 
-        # search miss
+        # search miss: if data not in linked list at all
         if actual_node is None:
             return
 
         # the head node is the one we want to remove
         if previous_node is None:
+            # if we remove the head node then the new head will be the previous
+            # 12 -> 4 -> 123 ==> 4 -> 123
             self.head = actual_node.next_node
         else:
             # remove an internal node by updating the pointers
             # NO NEED TO del THE NODE BECAUSE THE GARBAGE COLLECTOR WILL DO THAT
+            """
+            if we wanna remove 4:
+            12 -> 4 (actual) -> 123 ===> 12 -> 123
+            previous_node(12).next_node -> actual_node(4).next_node = 123
+            """
             previous_node.next_node = actual_node.next_node
+
+        # MAKE SURE TO REDUCE size of the linked list after removal
+        self.num_of_nodes -= 1
 
 
 if __name__ == '__main__':

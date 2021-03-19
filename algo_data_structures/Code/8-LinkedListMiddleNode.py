@@ -1,3 +1,15 @@
+"""
+1. naive solun O(N):
+    - 1st traversion is to count the number of items in a list
+    - 2nd traversion is use to traverse up to 1/2 lenght of the list to find the middle node
+
+2. using 2 pointers O(N):
+    - 1st pointer goes through the list one by one
+    - 2nd pointer goes throught the list 2x as fast (2 element at a time)
+    - becuase 2nd pointer is 2x fast, if it reaches the end of the list then it immediately means that the 1st pointer has reached the middle of the list
+    - this solution only requires 1 single traversal
+"""
+
 class Node:
 
     def __init__(self, data):
@@ -17,6 +29,8 @@ class LinkedList:
         fast_pointer = self.head
         slow_pointer = self.head
 
+        # while fast_pointer.next_node is not None and fast_pointer.next_node.next_node is not None:
+        # this while is used to increment the pointers
         while fast_pointer.next_node and fast_pointer.next_node.next_node:
             fast_pointer = fast_pointer.next_node.next_node
             slow_pointer = slow_pointer.next_node

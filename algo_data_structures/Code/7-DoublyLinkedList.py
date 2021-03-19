@@ -61,4 +61,6 @@ if __name__ == '__main__':
     # 3 2 1
     linked_list.traverse_backward()
 
-
+    # COMPARING LIST AND LINKED LIST
+    # Note: in oop language like C or java, time is measure in ms whereas in python its in seconds
+    # insert 500,000 items at the beginning: linked list (0.55s) is faster array (52s);

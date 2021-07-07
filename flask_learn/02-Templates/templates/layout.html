@@ -1,13 +1,33 @@
+<!--
+A layout is like a parent class which allows other sub templates to inherits from
+
+This prevent repetive html codes as the sites get more complicated
+
+In flask/django, static files has to be located in `static` folder
+
+- Link to boostrap starter template:
+  https://getbootstrap.com/docs/4.0/getting-started/introduction/
+
+- Link to additional boostrap styles such as navigation bar, etc:
+  https://github.com/CoreyMSchafer/code_snippets/tree/master/Python/Flask_Blog/snippets
+
+* To include `css` into the layout, we need to use the Flask function `url_for`, which can find the the exact locations of routes for us, so we do not need to worry about it in the background.
+  - import `url_for` inside the `flaskblog.py`
+-->
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- COPY FROM BOOSTRAP TEMPLATE STARTS -->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- COPY FROM BOOSTRAP TEMPLATE ENDS -->
 
+    <!-- WHERE `url_for(<static_dir>, <css_filename>)` is being used -->
+    <!-- linking styles to layout -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     {% if title %}
@@ -38,9 +58,12 @@
         </div>
       </nav>
     </header>
+
+    <!-- Wrap the `block content` with a boostrap class `container`-->
     <main role="main" class="container">
       <div class="row">
         <div class="col-md-8">
+          <!-- allow other templates to inherit and overwrite the `content` -->
           {% block content %}{% endblock %}
         </div>
         <div class="col-md-4">
@@ -59,11 +82,12 @@
       </div>
     </main>
 
-
+    <!-- COPY FROM BOOSTRAP TEMPLATE STARTS -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- COPY FROM BOOSTRAP TEMPLATE ENDS -->
 </body>
 </html>

@@ -3,16 +3,16 @@ app = Flask(__name__)
 
 posts = [
     {
-        'author': 'Corey Schafer',
+        'author': 'Author 1',
         'title': 'Blog Post 1',
         'content': 'First post content',
-        'date_posted': 'April 20, 2018'
+        'date_posted': 'April 20, 2021'
     },
     {
-        'author': 'Jane Doe',
+        'author': 'Author 2',
         'title': 'Blog Post 2',
         'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
+        'date_posted': 'April 21, 2021'
     }
 ]
 
@@ -20,6 +20,7 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def home():
+    # passing the arg `posts` allows the template to access the posts list of dicts
     return render_template('home.html', posts=posts)
 
 

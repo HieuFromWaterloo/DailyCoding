@@ -9,6 +9,7 @@ Note:
     - ADD THIS KEY TO `flaskblog.py`
 """
 
+
 class RegistrationForm(FlaskForm):
     # create user input fields
     # where validators: used to add constraints

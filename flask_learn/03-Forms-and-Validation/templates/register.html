@@ -7,7 +7,7 @@
                 <legend class="border-bottom mb-4">Join Today</legend>
                 <div class="form-group">
                     {{ form.username.label(class="form-control-label") }}
-
+                    <!-- below is for invalid input feedback for user -->
                     {% if form.username.errors %}
                         {{ form.username(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
@@ -70,3 +70,30 @@
         </small>
     </div>
 {% endblock content %}
+
+
+<!-- <div class="content-section">
+- refers to the `content-section` format in the css file
+-->
+
+<!-- <form method="POST" action="">
+- we want method of this form to be `POST` bc this is a register form
+
+- action="": after we `POST` this form, its gonna go back to the same route that we are currently on
+
+- {{ form.hidden_tag() }}: hidden tag adds a `CSRF` token (cross site request forgery) => part of the tag protection from the CSRF attacks
+
+- <fieldset class="form-group">: wrap with boostrap
+
+- <legend class="border-bottom mb-4">: mb-4 margin bottom with value of 4
+
+- We need to create 1 `form-group` for username, email, password, etc.
+    form.username/password/etc is derive from `variable name` in `forms.py`
+
+- Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
+    Here we pass in NOT the name of the `route` but we pass in the function corresponding to the route, i.e. login
+
+**MOST OF THE HEAVY LIFTING IS DONE HERE SO FOR `login.html`, JUST COPY WHATS HERE**
+- except here we do not need username (bc we sign in with emai), confirm password
+- an extra: `remember me` section
+-->

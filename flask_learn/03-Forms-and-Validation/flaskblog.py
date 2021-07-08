@@ -54,7 +54,17 @@ For each newly create route, we also need to create their corresponding template
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+
+    # form.validate_on_submit()
+    # this will validate the form when it is submitted
+    # before redering back to the register route
     if form.validate_on_submit():
+        # flash(<alert_str>, category_of_alert) is an ez way to send 1 time alert
+        # 'success' = style of alert
+        """
+        NOTE:
+        - we need to update this flash format in the `layout.html` so that it can display the alrt
+        """
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
@@ -64,7 +74,8 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+        # below is dummy variable to simulate shit
+        if form.email.data == 'hnguyen@blocklabs.ca' and form.password.data == 'asdfasdfsdrfgjksdhfgkl':
             flash('You have been logged in!', 'success')
             return redirect(url_for('home'))
         else:

@@ -50,3 +50,15 @@
         </small>
     </div>
 {% endblock content %}
+
+<!--
+**MOST OF THE HEAVY LIFTING IS DONE HERE SO FOR `login.html`, JUST COPY WHATS HERE**
+- except here we do not need username (bc we sign in with emai), confirm password
+- an extra: `remember me` section
+    <div class="form-check">
+        {{ form.remember(class="form-check-input") }}
+        {{ form.remember.label(class="form-check-label") }}
+    </div>
+
+- <a href="#">Forgot Password?</a>: "#" = dummy link
+-->
